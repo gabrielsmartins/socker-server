@@ -7,8 +7,10 @@ import java.util.Scanner;
 public class TaskManager implements Runnable {
 
 	private Socket socket;
+	private Server server;
 
-	public TaskManager(Socket socket) {
+	public TaskManager(Server server, Socket socket) {
+		this.server = server;
 		this.socket = socket;
 	}
 
@@ -33,6 +35,11 @@ public class TaskManager implements Runnable {
 
 				case "C2":
 					response.println("Command Confirmation :" + content);
+					break;
+					
+				case "shutdown":
+					response.println("Command Confirmation :" + content);
+					this.server.shutdown();
 					break;
 					
 				default: 
