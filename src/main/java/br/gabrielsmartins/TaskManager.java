@@ -3,13 +3,17 @@ package br.gabrielsmartins;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
 
 public class TaskManager implements Runnable {
 
+	private ExecutorService threadPool;
 	private Socket socket;
 	private Server server;
+	
 
-	public TaskManager(Server server, Socket socket) {
+	public TaskManager(ExecutorService threadPool, Server server, Socket socket) {
+		this.threadPool = threadPool;
 		this.server = server;
 		this.socket = socket;
 	}
@@ -31,10 +35,14 @@ public class TaskManager implements Runnable {
 
 				case "C1":
 					response.println("Command Confirmation :" + content);
+					CommandC1 c1Command = new CommandC1(response);
+					this.threadPool.execute(c1Command);
 					break;
 
 				case "C2":
 					response.println("Command Confirmation :" + content);
+					CommandC2 c2Command = new CommandC2(response);
+					this.threadPool.execute(c2Command);
 					break;
 					
 				case "shutdown":

@@ -27,7 +27,7 @@ public class Server {
 			try {
 				Socket socket = this.serverSocket.accept();
 				System.out.println("New Client at Port : " + socket.getPort());
-				TaskManager manager = new TaskManager(this, socket);
+				TaskManager manager = new TaskManager(threadPool, this, socket);
 				threadPool.execute(manager);
 			}catch(SocketException e) {
 				System.out.println("SocketException active: " + this.active);
