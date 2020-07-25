@@ -1,4 +1,4 @@
-package br.gabrielsmartins;
+package br.gabrielsmartins.client;
 
 import java.io.IOException;
 import java.io.PrintStream;

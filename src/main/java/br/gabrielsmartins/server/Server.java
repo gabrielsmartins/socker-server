@@ -1,4 +1,4 @@
-package br.gabrielsmartins;
+package br.gabrielsmartins.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -16,7 +16,7 @@ public class Server {
 
 	public Server(ServerSocket serverSocket) throws IOException {
 		this.serverSocket = serverSocket;
-		this.threadPool = Executors.newCachedThreadPool(); 
+		this.threadPool = Executors.newCachedThreadPool(new ThreadServerFactory()); 
 		this.active = new AtomicBoolean(true);
 	}
 	

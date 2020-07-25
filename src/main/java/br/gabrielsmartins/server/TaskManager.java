@@ -1,9 +1,14 @@
-package br.gabrielsmartins;
+package br.gabrielsmartins.server;
 
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+
+import br.gabrielsmartins.command.CommandC1;
+import br.gabrielsmartins.command.DatabaseCommand;
+import br.gabrielsmartins.command.WebServiceCommand;
 
 public class TaskManager implements Runnable {
 
@@ -41,8 +46,11 @@ public class TaskManager implements Runnable {
 
 				case "C2":
 					response.println("Command Confirmation :" + content);
-					CommandC2 c2Command = new CommandC2(response);
-					this.threadPool.execute(c2Command);
+					WebServiceCommand wsC2Command = new WebServiceCommand(response);
+					DatabaseCommand databaseC2Command = new DatabaseCommand(response);
+					Future<String> futureWS = this.threadPool.submit(wsC2Command);
+					Future<String> futureDatabase = this.threadPool.submit(databaseC2Command);
+					threadPool.submit(new JoinFuture(response, futureWS,futureDatabase));
 					break;
 					
 				case "shutdown":
